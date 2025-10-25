@@ -1,62 +1,100 @@
-# Astro Starter Kit: Blog
+# Astro Blog with Obsidian Integration
 
-```sh
-npm create astro@latest -- --template blog
+A clean, minimal blog built with Astro that's fully compatible with Obsidian's markdown format. Features include tag filtering, search functionality, and optimized image handling.
+
+## Features
+
+- ✅ **Clean, minimal design** with easy customization
+- ✅ **Obsidian compatibility** - supports `![[image.png]]` syntax and frontmatter
+- ✅ **Tag system** with filtering and dedicated tag pages
+- ✅ **Search functionality** - client-side search through posts
+- ✅ **Image optimization** - automatic image processing and responsive images
+- ✅ **SEO optimized** - built-in sitemap and meta tags
+- ✅ **Mobile responsive** - works great on all devices
+- ✅ **Fast performance** - static site generation with Astro
+
+## Quick Start
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Start development server:**
+   ```bash
+   npm run dev
+   ```
+
+3. **Open your browser:**
+   Visit `http://localhost:4321` to see your blog
+
+## Creating Posts
+
+1. Create a new `.md` file in `src/content/blog/`
+2. Use this frontmatter template:
+
+```yaml
+---
+title: 'Your Post Title'
+description: 'Brief description of your post'
+pubDate: '2024-01-15'
+heroImage: '../../assets/your-image.jpg'
+tags: ['tag1', 'tag2']
+draft: false
+author: 'Your Name'
+---
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+3. Write your content using standard markdown or Obsidian syntax
 
-Features:
+## Obsidian Integration
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+This blog supports Obsidian's markdown features:
 
-## 🚀 Project Structure
+- **Images**: Use `![[image.png]]` syntax
+- **Links**: Use `[[internal-link]]` for internal references
+- **Tables**: Standard markdown tables
+- **Footnotes**: Use `[^1]` syntax
+- **Code blocks**: With syntax highlighting
 
-Inside of your Astro project, you'll see the following folders and files:
+## Customization
 
-```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+See [CUSTOMIZATION.md](./CUSTOMIZATION.md) for detailed customization instructions.
+
+Key customization areas:
+- Colors and typography in `src/styles/global.css`
+- Site information in `src/consts.ts`
+- Layout components in `src/layouts/`
+
+## Deployment
+
+The blog is ready to deploy to:
+
+- **Vercel**: `npm run build && vercel --prod`
+- **Netlify**: `npm run build && netlify deploy --prod --dir=dist`
+- **GitHub Pages**: Use GitHub Actions
+
+## Project Structure
+
+```
+src/
+├── content/
+│   └── blog/           # Markdown blog posts
+├── components/         # Reusable components
+├── layouts/           # Page layouts
+├── pages/             # Routes
+├── styles/            # Global styles
+└── utils/             # Helper functions
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Development Commands
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```bash
+npm run dev      # Start development server
+npm run build    # Build for production
+npm run preview  # Preview production build
+```
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+## License
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+MIT License - feel free to use this template for your own blog!

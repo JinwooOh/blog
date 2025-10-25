@@ -1,0 +1,131 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  const tags = new Set<string>();
+
+  posts.forEach(post => {
+    if (post.data.tags) {
+      post.data.tags.forEach(tag => tags.add(tag));
+    }
+  });
+
+  return Array.from(tags).map(tag => ({
+    params: { tag },
+    props: { tag }
+  }));
+}
+
+type Props = {
+  tag: string;
+};
+
+const { tag } = Astro.props;
+const posts = await getCollection('blog');
+const filteredPosts = posts.filter(post =>
+  post.data.tags && post.data.tags.includes(tag)
+).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Posts tagged with "{tag}"</title>
+    <meta name="description" content={`All posts tagged with ${tag}`} />
+  </head>
+  <body>
+    <main>
+      <h1>Posts tagged with "{tag}"</h1>
+      <div class="posts">
+        {filteredPosts.map(post => (
+          <article class="post-card">
+            <h2><a href={`/blog/${post.slug}`}>{post.data.title}</a></h2>
+            <p>{post.data.description}</p>
+            <div class="meta">
+              <time datetime={post.data.pubDate.toISOString()}>
+                {post.data.pubDate.toLocaleDateString()}
+              </time>
+              {post.data.tags && (
+                <div class="tags">
+                  {post.data.tags.map(t => (
+                    <span class="tag">{t}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </main>
+  </body>
+</html>
+
+<style>
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  h1 {
+    margin-bottom: 2rem;
+    color: rgb(var(--gray-dark));
+  }
+
+  .posts {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .post-card {
+    padding: 1.5rem;
+    border: 1px solid rgb(var(--gray-light));
+    border-radius: 8px;
+    background: white;
+  }
+
+  .post-card h2 {
+    margin: 0 0 0.5rem 0;
+  }
+
+  .post-card h2 a {
+    color: rgb(var(--gray-dark));
+    text-decoration: none;
+  }
+
+  .post-card h2 a:hover {
+    text-decoration: underline;
+  }
+
+  .post-card p {
+    margin: 0 0 1rem 0;
+    color: rgb(var(--gray));
+  }
+
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+    color: rgb(var(--gray));
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    background: rgb(var(--gray-light));
+    color: rgb(var(--gray-dark));
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+  }
+</style>
