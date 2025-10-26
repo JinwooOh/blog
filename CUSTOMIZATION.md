@@ -28,7 +28,7 @@ The blog uses the Atkinson font by default. To change fonts:
 2. Update `@font-face` declarations in `global.css`
 3. Modify font-size variables as needed
 
-## Layout
+## Layout!
 
 Adjust layout variables in `global.css`:
 

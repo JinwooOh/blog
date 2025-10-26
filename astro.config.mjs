@@ -8,19 +8,21 @@ import remarkFootnotes from 'remark-footnotes';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://example.com',
-	integrations: [mdx(), sitemap()],
-	markdown: {
-		remarkPlugins: [remarkGfm, remarkFootnotes],
-		shikiConfig: {
-			theme: 'github-light',
-			wrap: true
-		}
+  site: 'https://example.com',
+  integrations: [mdx(), sitemap()],
+
+  markdown: {
+      remarkPlugins: [remarkGfm, remarkFootnotes],
+      shikiConfig: {
+          theme: 'github-light',
+          wrap: true
+      }
 	},
-	image: {
-		// Enable image optimization
-		service: {
-			entrypoint: 'astro/assets/services/sharp'
-		}
+
+  image: {
+      // Enable image optimization
+      service: {
+          entrypoint: 'astro/assets/services/sharp'
+      }
 	}
 });
