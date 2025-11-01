@@ -1,0 +1,131 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../../../components/BaseHead.astro';
+import Footer from '../../../components/Footer.astro';
+import Header from '../../../components/Header.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  const tags = new Set<string>();
+
+  posts.forEach(post => {
+    if (post.data.tags) {
+      post.data.tags.forEach(tag => tags.add(tag));
+    }
+  });
+
+  return Array.from(tags).map(tag => ({
+    params: { tag },
+    props: { tag }
+  }));
+}
+
+type Props = {
+  tag: string;
+};
+
+const { tag } = Astro.props;
+const posts = await getCollection('blog');
+const filteredPosts = posts.filter(post =>
+  post.data.tags && post.data.tags.includes(tag)
+).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={`Posts tagged with "${tag}"`} description={`All posts tagged with ${tag}`} />
+    <style lang="scss">
+      @use '../../../styles/variables' as *;
+      @use '../../../styles/mixins' as *;
+
+      main {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: ($spacing-xl * 2);
+
+        h1 {
+          margin-bottom: ($spacing-xl * 2);
+          color: rgb(var(--gray-dark));
+        }
+      }
+
+      .posts {
+        display: flex;
+        flex-direction: column;
+        gap: ($spacing-xl * 2);
+      }
+
+      .post-card {
+        @include card-style($glass: false);
+
+        h2 {
+          margin: 0 0 $spacing-sm 0;
+
+          a {
+            color: rgb(var(--gray-dark));
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+
+        p {
+          margin: 0 0 $spacing-lg 0;
+          color: rgb(var(--gray));
+        }
+
+        .meta {
+          @include flex-between;
+          font-size: $font-size-sm;
+          color: rgb(var(--gray));
+        }
+
+        .tags {
+          display: flex;
+          gap: $spacing-sm;
+
+          .tag {
+            @include tag-style();
+            padding: $spacing-xs $spacing-sm;
+            border-radius: $border-radius-small;
+            font-size: $font-size-sm * 0.857;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <h1>Posts tagged with "{tag}"</h1>
+      <div class="posts">
+        {filteredPosts.map(post => (
+          <article class="post-card">
+            <h2>
+              <a href={`/blog/${post.slug}`}>
+                {post.data.title}
+              </a>
+            </h2>
+            <p>{post.data.description}</p>
+            <div class="meta">
+              <time datetime={post.data.pubDate.toISOString()}>
+                {post.data.pubDate.toLocaleDateString()}
+              </time>
+              {post.data.tags && (
+                <div class="tags">
+                  {post.data.tags.map(t => (
+                    <span class="tag">{t}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

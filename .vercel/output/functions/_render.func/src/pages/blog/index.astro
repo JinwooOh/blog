@@ -1,0 +1,280 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Header from '../../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+
+const allPosts = await getCollection('blog');
+const posts = allPosts
+	.filter(post => !post.data.draft)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Get all unique tags
+const allTags = new Set<string>();
+allPosts.forEach(post => {
+	if (post.data.tags) {
+		post.data.tags.forEach(tag => allTags.add(tag));
+	}
+});
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style lang="scss">
+			@use '../../styles/variables' as *;
+			@use '../../styles/mixins' as *;
+
+			main {
+				width: $max-width-wide;
+			}
+
+			.search-section {
+				margin-bottom: $spacing-xl;
+				padding: $spacing-lg;
+				background: white;
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: $border-radius;
+			}
+
+			.search-input {
+				width: 100%;
+				max-width: 100%;
+				box-sizing: border-box;
+				padding: ($spacing-sm * 1.5);
+				margin: 0;
+				background: white;
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: $border-radius-small;
+				font-size: $font-size-base;
+				transition: all $transition-normal;
+				display: block;
+
+				&:focus {
+					outline: none;
+					border-color: var(--accent);
+					box-shadow: 0 0 0 3px rgba(35, 55, 255, 0.1);
+				}
+			}
+
+			.tags-filter {
+				margin-top: $spacing-md;
+				display: flex;
+				flex-wrap: wrap;
+				gap: $spacing-sm;
+			}
+
+			.tag-filter {
+				padding: $spacing-xs ($spacing-sm * 1.5);
+				@include glass-effect(0.85, 15px, 0.25);
+				border-radius: 1rem;
+				cursor: pointer;
+				transition: all $transition-normal;
+
+				&:hover,
+				&.active {
+					background: rgba(34, 41, 57, 0.85);
+					backdrop-filter: blur(20px) saturate(180%);
+					-webkit-backdrop-filter: blur(20px) saturate(180%);
+					border: 1px solid rgba(255, 255, 255, 0.3);
+					color: white;
+					transform: translateY(-1px);
+					box-shadow:
+						0 12px 40px 0 rgba(0, 0, 0, 0.4),
+						inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+				}
+			}
+
+			.post-tags {
+				margin-top: $spacing-sm;
+				display: flex;
+				flex-wrap: wrap;
+				gap: $spacing-xs;
+			}
+
+			.post-tag {
+				@include tag-style();
+				padding: ($spacing-xs * 0.5) $spacing-sm;
+				border-radius: $border-radius-small;
+				font-size: $font-size-sm * 0.857; // 0.75rem
+			}
+
+			ul {
+				display: flex;
+				flex-wrap: wrap;
+				gap: $spacing-xl;
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+
+				li {
+					width: calc(50% - 1rem);
+
+					* {
+						text-decoration: none;
+						transition: $transition-normal;
+					}
+
+					&:first-child {
+						width: 100%;
+						margin-bottom: $spacing-md;
+						text-align: center;
+
+						img {
+							width: 100%;
+						}
+
+						.title {
+							font-size: 2.369rem;
+						}
+					}
+
+					img {
+						margin-bottom: $spacing-sm;
+						border-radius: $border-radius-large;
+					}
+
+					a {
+						display: block;
+
+						&:hover {
+							h4,
+							.date {
+								color: rgb(var(--gray-dark));
+							}
+
+							img {
+								box-shadow: var(--box-shadow);
+							}
+						}
+					}
+				}
+			}
+
+			.title {
+				margin: 0;
+				color: rgb(var(--black));
+				line-height: 1;
+			}
+
+			.date {
+				margin: 0;
+				color: rgb(var(--gray));
+			}
+
+			@include mobile {
+				ul {
+					gap: $spacing-sm;
+				}
+
+				ul li {
+					width: 100%;
+					text-align: center;
+
+					&:first-child {
+						margin-bottom: 0;
+
+						.title {
+							font-size: 1.563em;
+						}
+					}
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="search-section">
+				<input type="text" id="searchInput" class="search-input" placeholder="Search posts..." />
+				<div class="tags-filter">
+					<div class="tag-filter active" data-tag="all">All</div>
+					{Array.from(allTags).map(tag => (
+						<div class="tag-filter" data-tag={tag}>{tag}</div>
+					))}
+				</div>
+			</section>
+			<section>
+				<ul id="postsList">
+					{
+						posts.map((post) => (
+							<li data-tags={post.data.tags?.join(',') || ''} data-title={post.data.title.toLowerCase()} data-description={post.data.description.toLowerCase()}>
+								<a href={`/blog/${post.id}/`}>
+									{post.data.heroImage && (
+										<Image width={720} height={360} src={post.data.heroImage} alt="" />
+									)}
+									<h4 class="title">{post.data.title}</h4>
+									<p class="date">
+										<FormattedDate date={post.data.pubDate} />
+									</p>
+									{post.data.tags && (
+										<div class="post-tags">
+											{post.data.tags.map(tag => (
+												<span class="post-tag">{tag}</span>
+											))}
+										</div>
+									)}
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+		</main>
+		<Footer />
+
+		<script>
+			const searchInput = document.getElementById('searchInput');
+			const postsList = document.getElementById('postsList');
+			const tagFilters = document.querySelectorAll('.tag-filter');
+			const posts = Array.from(postsList.children);
+
+			let currentTag = 'all';
+
+			// Search functionality
+			searchInput.addEventListener('input', (e) => {
+				const searchTerm = e.target.value.toLowerCase();
+				filterPosts(searchTerm, currentTag);
+			});
+
+			// Tag filtering
+			tagFilters.forEach(filter => {
+				filter.addEventListener('click', () => {
+					// Update active state
+					tagFilters.forEach(f => f.classList.remove('active'));
+					filter.classList.add('active');
+
+					// Update current tag
+					currentTag = filter.dataset.tag;
+
+					// Filter posts
+					filterPosts(searchInput.value.toLowerCase(), currentTag);
+				});
+			});
+
+			function filterPosts(searchTerm, tag) {
+				posts.forEach(post => {
+					const title = post.dataset.title || '';
+					const description = post.dataset.description || '';
+					const tags = post.dataset.tags || '';
+
+					const matchesSearch = !searchTerm ||
+						title.includes(searchTerm) ||
+						description.includes(searchTerm);
+
+					const matchesTag = tag === 'all' || tags.includes(tag);
+
+					if (matchesSearch && matchesTag) {
+						post.style.display = 'block';
+					} else {
+						post.style.display = 'none';
+					}
+				});
+			}
+		</script>
+	</body>
+</html>
