@@ -4,14 +4,16 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build --remote",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/db": "^0.18.2",
     "@astrojs/mdx": "^4.3.8",
     "@astrojs/rss": "^4.0.13",
     "@astrojs/sitemap": "^3.6.0",
+    "@libsql/client": "^0.15.15",
     "astro": "^5.15.1",
     "remark-footnotes": "^4.0.1",
     "remark-gfm": "^4.0.1",

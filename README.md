@@ -8,6 +8,7 @@ A clean, minimal blog built with Astro that's fully compatible with Obsidian's m
 - ✅ **Obsidian compatibility** - supports `![[image.png]]` syntax and frontmatter
 - ✅ **Tag system** with filtering and dedicated tag pages
 - ✅ **Search functionality** - client-side search through posts
+- ✅ **Comment system** - powered by Astro DB with Turso (free tier)
 - ✅ **Image optimization** - automatic image processing and responsive images
 - ✅ **SEO optimized** - built-in sitemap and meta tags
 - ✅ **Mobile responsive** - works great on all devices
@@ -25,7 +26,38 @@ A clean, minimal blog built with Astro that's fully compatible with Obsidian's m
    npm run dev
    ```
 
-3. **Open your browser:**
+3. **Set up Turso database for comments (optional):**
+   ```bash
+   # Install Turso CLI (if not already installed)
+   # macOS: brew install tursodatabase/tap/turso
+   # Or visit: https://docs.turso.tech/cli/installation
+
+   # Login to Turso
+   turso auth login
+
+   # Create a database
+   turso db create blog-comments
+
+   # Get database URL
+   turso db show blog-comments --url
+
+   # Create auth token
+   turso db tokens create blog-comments
+
+   # Create .env file with your credentials
+   cp .env.example .env
+   # Then edit .env and add your ASTRO_DB_REMOTE_URL and ASTRO_DB_APP_TOKEN
+   ```
+
+4. **Push database schema:**
+   ```bash
+   # This must be done before building/running the site
+   npx astro db push --remote
+   ```
+
+   **Note**: The build will fail if the schema hasn't been pushed. Make sure to complete this step before running `npm run build`.
+
+5. **Open your browser:**
    Visit `http://localhost:4321` to see your blog
 
 ## Creating Posts
