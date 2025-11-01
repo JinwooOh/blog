@@ -39,24 +39,31 @@ const today = new Date();
 		</a>
 	</div>
 </footer>
-<style>
+<style lang="scss">
+	@use '../styles/variables' as *;
+	@use '../styles/mixins' as *;
+
 	footer {
-		padding: 2em 1em 6em 1em;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
+		padding: ($spacing-xl * 1.5) $spacing-md ($spacing-2xl * 2) $spacing-md;
+		@include glass-effect(0.6, 20px, 0.15);
 		color: rgb(var(--gray));
 		text-align: center;
-	}
-	.social-links {
-		display: flex;
-		justify-content: center;
-		gap: 1em;
-		margin-top: 1em;
-	}
-	.social-links a {
-		text-decoration: none;
-		color: rgb(var(--gray));
-	}
-	.social-links a:hover {
-		color: rgb(var(--gray-dark));
+		margin-top: $spacing-2xl;
+
+		.social-links {
+			@include flex-center;
+			gap: $spacing-md;
+			margin-top: $spacing-md;
+
+			a {
+				text-decoration: none;
+				color: rgb(var(--gray));
+				transition: color $transition-normal;
+
+				&:hover {
+					color: rgb(var(--gray-dark));
+				}
+			}
+		}
 	}
 </style>

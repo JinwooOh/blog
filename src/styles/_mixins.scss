@@ -1,0 +1,114 @@
+/*
+  SASS Mixins
+  Reusable style patterns
+*/
+
+@use 'variables' as *;
+
+// Button/Tag style - with optional glass effect
+@mixin tag-style($bg-color: rgb(var(--gray-light)), $text-color: rgb(var(--gray-dark)), $glass: true) {
+  padding: $spacing-xs ($spacing-sm * 1.5);
+  border-radius: 1em;
+  font-size: $font-size-sm;
+  text-decoration: none;
+  transition: all $transition-normal;
+
+  @if $glass {
+    @include glass-effect(0.8, 15px, 0.2);
+    color: $text-color;
+
+    &:hover {
+      @include glass-effect(0.9, 18px, 0.25);
+      transform: translateY(-1px);
+    }
+  } @else {
+    background: $bg-color;
+    color: $text-color;
+
+    &:hover {
+      background: rgb(var(--gray));
+    }
+  }
+}
+
+// Card style - with optional glass effect
+@mixin card-style($glass: false) {
+  padding: $spacing-lg;
+  border-radius: $border-radius;
+
+  @if $glass {
+    @include liquid-glass(0.8);
+  } @else {
+    border: 1px solid rgb(var(--gray-light));
+    background: white;
+  }
+}
+
+// Container with max-width
+@mixin container($max-width: $max-width) {
+  width: $max-width;
+  max-width: calc(100% - 2em);
+  margin: auto;
+  padding: $spacing-md;
+}
+
+// Responsive breakpoint
+@mixin mobile {
+  @media (max-width: $breakpoint-mobile) {
+    @content;
+  }
+}
+
+// Flexbox utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Text utilities
+@mixin text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Glassmorphism / Apple Glass Liquid Design
+@mixin glass-effect($opacity: 0.7, $blur: 20px, $border-opacity: 0.18) {
+  background: rgba(255, 255, 255, $opacity);
+  backdrop-filter: blur($blur) saturate(180%);
+  -webkit-backdrop-filter: blur($blur) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, $border-opacity);
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.37),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+}
+
+@mixin glass-dark($opacity: 0.3, $blur: 20px, $border-opacity: 0.2) {
+  background: rgba(0, 0, 0, $opacity);
+  backdrop-filter: blur($blur) saturate(180%);
+  -webkit-backdrop-filter: blur($blur) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, $border-opacity);
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+// Liquid glass card - enhanced glassmorphism
+@mixin liquid-glass($opacity: 0.75) {
+  @include glass-effect($opacity, 24px, 0.2);
+  transition: all $transition-normal;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 12px 40px 0 rgba(31, 38, 135, 0.45),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+  }
+}

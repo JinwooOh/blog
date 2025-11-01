@@ -1,6 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../../../components/BaseHead.astro';
+import Footer from '../../../components/Footer.astro';
+import Header from '../../../components/Header.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -31,33 +34,90 @@ const filteredPosts = posts.filter(post =>
 
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Posts tagged with "{tag}"</title>
-    <meta name="description" content={`All posts tagged with ${tag}`} />
+    <BaseHead title={`Posts tagged with "${tag}"`} description={`All posts tagged with ${tag}`} />
+    <style lang="scss">
+      @use '../../../styles/variables' as *;
+      @use '../../../styles/mixins' as *;
+
+      main {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: ($spacing-xl * 2);
+
+        h1 {
+          margin-bottom: ($spacing-xl * 2);
+          color: rgb(var(--gray-dark));
+        }
+      }
+
+      .posts {
+        display: flex;
+        flex-direction: column;
+        gap: ($spacing-xl * 2);
+      }
+
+      .post-card {
+        @include card-style($glass: false);
+
+        h2 {
+          margin: 0 0 $spacing-sm 0;
+
+          a {
+            color: rgb(var(--gray-dark));
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+
+        p {
+          margin: 0 0 $spacing-lg 0;
+          color: rgb(var(--gray));
+        }
+
+        .meta {
+          @include flex-between;
+          font-size: $font-size-sm;
+          color: rgb(var(--gray));
+        }
+
+        .tags {
+          display: flex;
+          gap: $spacing-sm;
+
+          .tag {
+            @include tag-style();
+            padding: $spacing-xs $spacing-sm;
+            border-radius: $border-radius-small;
+            font-size: $font-size-sm * 0.857;
+          }
+        }
+      }
+    </style>
   </head>
   <body>
-    <main class="max-w-[800px] mx-auto p-8">
-      <h1 class="mb-8 text-gray-dark">Posts tagged with "{tag}"</h1>
-      <div class="flex flex-col gap-8">
+    <Header />
+    <main>
+      <h1>Posts tagged with "{tag}"</h1>
+      <div class="posts">
         {filteredPosts.map(post => (
-          <article class="p-6 border border-gray-light rounded-lg bg-white">
-            <h2 class="m-0 mb-2">
-              <a href={`/blog/${post.slug}`} class="text-gray-dark no-underline hover:underline">
+          <article class="post-card">
+            <h2>
+              <a href={`/blog/${post.slug}`}>
                 {post.data.title}
               </a>
             </h2>
-            <p class="m-0 mb-4 text-gray">{post.data.description}</p>
-            <div class="flex justify-between items-center text-sm text-gray">
+            <p>{post.data.description}</p>
+            <div class="meta">
               <time datetime={post.data.pubDate.toISOString()}>
                 {post.data.pubDate.toLocaleDateString()}
               </time>
               {post.data.tags && (
-                <div class="flex gap-2">
+                <div class="tags">
                   {post.data.tags.map(t => (
-                    <span class="bg-gray-light text-gray-dark px-2 py-1 rounded text-xs">{t}</span>
+                    <span class="tag">{t}</span>
                   ))}
                 </div>
               )}
@@ -66,5 +126,6 @@ const filteredPosts = posts.filter(post =>
         ))}
       </div>
     </main>
+    <Footer />
   </body>
 </html>

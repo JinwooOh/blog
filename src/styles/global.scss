@@ -4,39 +4,43 @@
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
 
+// Import SASS partials
+@use 'variables' as *;
+@use 'mixins' as *;
+
 :root {
 	/* Color scheme - easily customizable */
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
-	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
-	--gray-light: 229, 233, 240;
-	--gray-dark: 34, 41, 57;
+	--accent: #{$accent};
+	--accent-dark: #{$accent-dark};
+	--black: #{$black-rgb};
+	--gray: #{$gray-rgb};
+	--gray-light: #{$gray-light-rgb};
+	--gray-dark: #{$gray-dark-rgb};
 	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
 
 	/* Layout variables */
-	--max-width: 720px;
-	--max-width-wide: 960px;
-	--border-radius: 8px;
-	--border-radius-small: 4px;
-	--border-radius-large: 12px;
+	--max-width: #{$max-width};
+	--max-width-wide: #{$max-width-wide};
+	--border-radius: #{$border-radius};
+	--border-radius-small: #{$border-radius-small};
+	--border-radius-large: #{$border-radius-large};
 
 	/* Spacing */
-	--spacing-xs: 0.25rem;
-	--spacing-sm: 0.5rem;
-	--spacing-md: 1rem;
-	--spacing-lg: 1.5rem;
-	--spacing-xl: 2rem;
-	--spacing-2xl: 3rem;
+	--spacing-xs: #{$spacing-xs};
+	--spacing-sm: #{$spacing-sm};
+	--spacing-md: #{$spacing-md};
+	--spacing-lg: #{$spacing-lg};
+	--spacing-xl: #{$spacing-xl};
+	--spacing-2xl: #{$spacing-2xl};
 
 	/* Typography */
-	--font-size-sm: 0.875rem;
-	--font-size-base: 1rem;
-	--font-size-lg: 1.125rem;
-	--font-size-xl: 1.25rem;
-	--font-size-2xl: 1.5rem;
-	--font-size-3xl: 1.875rem;
-	--font-size-4xl: 2.25rem;
+	--font-size-sm: #{$font-size-sm};
+	--font-size-base: #{$font-size-base};
+	--font-size-lg: #{$font-size-lg};
+	--font-size-xl: #{$font-size-xl};
+	--font-size-2xl: #{$font-size-2xl};
+	--font-size-3xl: #{$font-size-3xl};
+	--font-size-4xl: #{$font-size-4xl};
 
 	/* Shadows */
 	--box-shadow:
@@ -46,10 +50,11 @@
 	--box-shadow-lg: 0 10px 15px rgba(var(--gray), 25%);
 
 	/* Transitions */
-	--transition-fast: 0.15s ease;
-	--transition-normal: 0.2s ease;
-	--transition-slow: 0.3s ease;
+	--transition-fast: #{$transition-fast};
+	--transition-normal: #{$transition-normal};
+	--transition-slow: #{$transition-slow};
 }
+
 @font-face {
 	font-family: "Atkinson";
 	src: url("/fonts/atkinson-regular.woff") format("woff");
@@ -57,6 +62,7 @@
 	font-style: normal;
 	font-display: swap;
 }
+
 @font-face {
 	font-family: "Atkinson";
 	src: url("/fonts/atkinson-bold.woff") format("woff");
@@ -64,25 +70,33 @@
 	font-style: normal;
 	font-display: swap;
 }
+
 body {
-	font-family: "Atkinson", sans-serif;
+	font-family: $font-family;
 	margin: 0;
 	padding: 0;
 	text-align: left;
-	background: linear-gradient(var(--gray-gradient)) no-repeat;
-	background-size: 100% 600px;
+	// Dynamic gradient background for glassmorphism
+	background:
+		linear-gradient(135deg, rgba(var(--gray-light), 0.4) 0%, rgba(var(--gray-light), 0.2) 50%, rgba(var(--gray-light), 0.3) 100%),
+		radial-gradient(circle at 20% 50%, rgba(var(--accent), 0.1) 0%, transparent 50%),
+		radial-gradient(circle at 80% 80%, rgba(var(--accent-dark), 0.15) 0%, transparent 50%),
+		linear-gradient(var(--gray-gradient));
+	background-attachment: fixed;
+	background-size: 100% 100%, 100% 100%, 100% 100%, 100% 600px;
+	min-height: 100vh;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	color: rgb(var(--gray-dark));
 	font-size: 20px;
 	line-height: 1.7;
 }
+
 main {
-	width: 720px;
-	max-width: calc(100% - 2em);
-	margin: auto;
-	padding: 3em 1em;
+	@include container($max-width);
+	padding: 3em $spacing-md;
 }
+
 h1,
 h2,
 h3,
@@ -93,80 +107,102 @@ h6 {
 	color: rgb(var(--black));
 	line-height: 1.2;
 }
+
 h1 {
 	font-size: 3.052em;
 }
+
 h2 {
 	font-size: 2.441em;
 }
+
 h3 {
 	font-size: 1.953em;
 }
+
 h4 {
 	font-size: 1.563em;
 }
+
 h5 {
 	font-size: 1.25em;
 }
+
 strong,
 b {
 	font-weight: 700;
 }
+
 a {
 	color: rgb(var(--gray-dark));
+
+	&:hover {
+		color: rgb(var(--black));
+	}
 }
-a:hover {
-	color: rgb(var(--black));
-}
+
 p {
-	margin-bottom: 1em;
+	margin-bottom: $spacing-md;
 }
+
 .prose p {
-	margin-bottom: 2em;
+	margin-bottom: $spacing-xl;
 }
-textarea {
+
+textarea,
+input {
 	width: 100%;
 	font-size: 16px;
 }
-input {
-	font-size: 16px;
-}
+
 table {
 	width: 100%;
 }
+
 img {
 	max-width: 100%;
 	height: auto;
-	border-radius: 8px;
+	border-radius: $border-radius;
 }
+
 code {
 	padding: 2px 5px;
 	background-color: rgb(var(--gray-light));
 	border-radius: 2px;
 }
+
 pre {
-	padding: 1.5em;
-	border-radius: 8px;
+	padding: $spacing-lg;
+	border-radius: $border-radius;
+	background-color: rgb(var(--gray-light));
+	border: 1px solid rgb(var(--gray-light));
+
+	> code {
+		all: unset;
+		background: transparent;
+		padding: 0;
+	}
 }
-pre > code {
-	all: unset;
-}
+
 blockquote {
 	border-left: 4px solid var(--accent);
 	padding: 0 0 0 20px;
 	margin: 0px;
 	font-size: 1.333em;
 }
+
 hr {
 	border: none;
 	border-top: 1px solid rgb(var(--gray-light));
 }
-@media (max-width: 720px) {
+
+@include mobile {
 	body {
 		font-size: 18px;
 	}
+
 	main {
-		padding: 1em;
+		padding: $spacing-md;
 	}
 }
 

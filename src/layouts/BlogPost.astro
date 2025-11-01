@@ -14,68 +14,74 @@ const { title, description, pubDate, updatedDate, heroImage, tags, author } = As
 <html lang="en">
 	<head>
 		<BaseHead title={title} description={description} />
-		<style>
+		<style lang="scss">
+			@use '../styles/variables' as *;
+			@use '../styles/mixins' as *;
+
 			main {
 				width: calc(100% - 2em);
 				max-width: 100%;
-				margin: 0;
+				margin: 0 auto;
 			}
+
 			.hero-image {
 				width: 100%;
+
+				img {
+					display: block;
+					margin: 0 auto;
+					border-radius: $border-radius-large;
+					box-shadow: var(--box-shadow);
+				}
 			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-			}
+
 			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
+				@include container($max-width);
 				color: rgb(var(--gray-dark));
+				padding: $spacing-xl 0;
 			}
+
 			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
+				margin-bottom: $spacing-md;
+				padding: $spacing-md 0;
 				text-align: center;
 				line-height: 1;
+
+				h1 {
+					margin: 0 0 0.5em 0;
+				}
 			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
+
 			.date {
-				margin-bottom: 0.5em;
+				margin-bottom: $spacing-sm;
 				color: rgb(var(--gray));
+
+				.last-updated-on {
+					font-style: italic;
+				}
 			}
-			.last-updated-on {
-				font-style: italic;
-			}
+
 			.tags {
 				display: flex;
 				flex-wrap: wrap;
-				gap: 0.5em;
-				margin: 1em 0;
+				gap: $spacing-sm;
+				margin: $spacing-md 0;
 				justify-content: center;
 			}
+
 			.tag {
-				background: rgb(var(--gray-light));
-				color: rgb(var(--gray-dark));
-				padding: 0.25em 0.75em;
-				border-radius: 1em;
-				font-size: 0.875em;
-				text-decoration: none;
-				transition: background-color 0.2s;
+				@include tag-style();
+
+				&:hover {
+					background: rgb(var(--gray));
+				}
 			}
-			.tag:hover {
-				background: rgb(var(--gray));
-			}
+
 			.author {
 				text-align: center;
 				color: rgb(var(--gray));
 				font-style: italic;
-				margin-bottom: 1em;
+				margin-bottom: $spacing-md;
 			}
 		</style>
 	</head>

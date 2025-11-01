@@ -25,117 +25,163 @@ allPosts.forEach(post => {
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
+		<style lang="scss">
+			@use '../../styles/variables' as *;
+			@use '../../styles/mixins' as *;
+
 			main {
-				width: 960px;
+				width: $max-width-wide;
 			}
+
 			.search-section {
-				margin-bottom: 2rem;
-				padding: 1rem;
-				background: rgb(var(--gray-light));
-				border-radius: 8px;
+				margin-bottom: $spacing-xl;
+				padding: $spacing-lg;
+				background: white;
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: $border-radius;
 			}
+
 			.search-input {
 				width: 100%;
-				padding: 0.75rem;
-				border: 1px solid rgb(var(--gray));
-				border-radius: 4px;
-				font-size: 1rem;
+				max-width: 100%;
+				box-sizing: border-box;
+				padding: ($spacing-sm * 1.5);
+				margin: 0;
+				background: white;
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: $border-radius-small;
+				font-size: $font-size-base;
+				transition: all $transition-normal;
+				display: block;
+
+				&:focus {
+					outline: none;
+					border-color: var(--accent);
+					box-shadow: 0 0 0 3px rgba(35, 55, 255, 0.1);
+				}
 			}
+
 			.tags-filter {
-				margin-top: 1rem;
+				margin-top: $spacing-md;
 				display: flex;
 				flex-wrap: wrap;
-				gap: 0.5rem;
+				gap: $spacing-sm;
 			}
+
 			.tag-filter {
-				padding: 0.25rem 0.75rem;
-				background: white;
-				border: 1px solid rgb(var(--gray));
+				padding: $spacing-xs ($spacing-sm * 1.5);
+				@include glass-effect(0.85, 15px, 0.25);
 				border-radius: 1rem;
 				cursor: pointer;
-				transition: all 0.2s;
+				transition: all $transition-normal;
+
+				&:hover,
+				&.active {
+					background: rgba(34, 41, 57, 0.85);
+					backdrop-filter: blur(20px) saturate(180%);
+					-webkit-backdrop-filter: blur(20px) saturate(180%);
+					border: 1px solid rgba(255, 255, 255, 0.3);
+					color: white;
+					transform: translateY(-1px);
+					box-shadow:
+						0 12px 40px 0 rgba(0, 0, 0, 0.4),
+						inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+				}
 			}
-			.tag-filter:hover,
-			.tag-filter.active {
-				background: rgb(var(--gray-dark));
-				color: white;
-			}
+
 			.post-tags {
-				margin-top: 0.5rem;
+				margin-top: $spacing-sm;
 				display: flex;
 				flex-wrap: wrap;
-				gap: 0.25rem;
+				gap: $spacing-xs;
 			}
+
 			.post-tag {
-				background: rgb(var(--gray-light));
-				color: rgb(var(--gray-dark));
-				padding: 0.125rem 0.5rem;
-				border-radius: 0.25rem;
-				font-size: 0.75rem;
+				@include tag-style();
+				padding: ($spacing-xs * 0.5) $spacing-sm;
+				border-radius: $border-radius-small;
+				font-size: $font-size-sm * 0.857; // 0.75rem
 			}
+
 			ul {
 				display: flex;
 				flex-wrap: wrap;
-				gap: 2rem;
+				gap: $spacing-xl;
 				list-style-type: none;
 				margin: 0;
 				padding: 0;
+
+				li {
+					width: calc(50% - 1rem);
+
+					* {
+						text-decoration: none;
+						transition: $transition-normal;
+					}
+
+					&:first-child {
+						width: 100%;
+						margin-bottom: $spacing-md;
+						text-align: center;
+
+						img {
+							width: 100%;
+						}
+
+						.title {
+							font-size: 2.369rem;
+						}
+					}
+
+					img {
+						margin-bottom: $spacing-sm;
+						border-radius: $border-radius-large;
+					}
+
+					a {
+						display: block;
+
+						&:hover {
+							h4,
+							.date {
+								color: rgb(var(--gray-dark));
+							}
+
+							img {
+								box-shadow: var(--box-shadow);
+							}
+						}
+					}
+				}
 			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
+
 			.title {
 				margin: 0;
 				color: rgb(var(--black));
 				line-height: 1;
 			}
+
 			.date {
 				margin: 0;
 				color: rgb(var(--gray));
 			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--gray-dark));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
+
+			@include mobile {
 				ul {
-					gap: 0.5em;
+					gap: $spacing-sm;
 				}
+
 				ul li {
 					width: 100%;
 					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
+
+					&:first-child {
+						margin-bottom: 0;
+
+						.title {
+							font-size: 1.563em;
+						}
+					}
 				}
 			}
 		</style>
