@@ -18,15 +18,21 @@
     color: $text-color;
 
     &:hover {
-      @include glass-effect(0.9, 18px, 0.25);
+      background: rgba(255, 140, 105, 0.9);
+      backdrop-filter: blur(18px) saturate(180%);
+      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      border-color: rgba(255, 140, 105, 0.4);
+      color: white;
       transform: translateY(-1px);
+      box-shadow: 0 8px 32px 0 rgba(255, 140, 105, 0.3);
     }
   } @else {
     background: $bg-color;
     color: $text-color;
 
     &:hover {
-      background: rgb(var(--gray));
+      background: rgba(255, 140, 105, 0.9);
+      color: white;
     }
   }
 }

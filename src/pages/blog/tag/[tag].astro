@@ -1,31 +1,17 @@
 ---
 import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../../../components/BaseHead.astro';
 import Footer from '../../../components/Footer.astro';
 import Header from '../../../components/Header.astro';
 
-export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  const tags = new Set<string>();
+export const prerender = false;
 
-  posts.forEach(post => {
-    if (post.data.tags) {
-      post.data.tags.forEach(tag => tags.add(tag));
-    }
-  });
+const { tag } = Astro.params;
 
-  return Array.from(tags).map(tag => ({
-    params: { tag },
-    props: { tag }
-  }));
+if (!tag) {
+	return Astro.redirect('/404');
 }
 
-type Props = {
-  tag: string;
-};
-
-const { tag } = Astro.props;
 const allPosts = await getCollection('blog');
 const filteredPosts = allPosts
   .filter(post => !post.data.draft)
@@ -104,30 +90,34 @@ const filteredPosts = allPosts
     <Header />
     <main>
       <h1>Posts tagged with "{tag}"</h1>
-      <div class="posts">
-        {filteredPosts.map(post => (
-          <article class="post-card">
-            <h2>
-              <a href={`/blog/${post.slug}`}>
-                {post.data.title}
-              </a>
-            </h2>
-            <p>{post.data.description}</p>
-            <div class="meta">
-              <time datetime={post.data.pubDate.toISOString()}>
-                {post.data.pubDate.toLocaleDateString()}
-              </time>
-              {post.data.tags && (
-                <div class="tags">
-                  {post.data.tags.map(t => (
-                    <span class="tag">{t}</span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </article>
-        ))}
-      </div>
+      {filteredPosts.length === 0 ? (
+        <p>No posts found with this tag.</p>
+      ) : (
+        <div class="posts">
+          {filteredPosts.map(post => (
+            <article class="post-card">
+              <h2>
+                <a href={`/blog/${post.id}/`}>
+                  {post.data.title}
+                </a>
+              </h2>
+              <p>{post.data.description}</p>
+              <div class="meta">
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {post.data.pubDate.toLocaleDateString()}
+                </time>
+                {post.data.tags && (
+                  <div class="tags">
+                    {post.data.tags.map(t => (
+                      <span class="tag">{t}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
     </main>
     <Footer />
   </body>

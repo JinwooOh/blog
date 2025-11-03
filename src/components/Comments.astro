@@ -127,7 +127,7 @@ const { postSlug } = Astro.props;
 				&:focus {
 					outline: none;
 					border-color: var(--accent);
-					box-shadow: 0 0 0 3px rgba(35, 55, 255, 0.1);
+					box-shadow: 0 0 0 3px rgba(107, 194, 178, 0.1);
 				}
 			}
 
@@ -138,14 +138,22 @@ const { postSlug } = Astro.props;
 		}
 
 		.submit-button {
-			@include tag-style($glass: true);
+			background: rgba(255, 140, 105, 0.9);
+			backdrop-filter: blur(20px) saturate(180%);
+			-webkit-backdrop-filter: blur(20px) saturate(180%);
+			border: 1px solid rgba(255, 140, 105, 0.4);
+			color: white;
 			padding: $spacing-sm $spacing-xl;
 			cursor: pointer;
-			border: none;
 			font-size: $font-size-base;
+			border-radius: $border-radius;
+			transition: all $transition-normal;
+			box-shadow: 0 8px 32px 0 rgba(255, 140, 105, 0.3);
 
 			&:hover {
 				transform: translateY(-1px);
+				background: rgba(230, 107, 74, 0.95);
+				box-shadow: 0 12px 40px 0 rgba(255, 140, 105, 0.4);
 			}
 
 			&:disabled {

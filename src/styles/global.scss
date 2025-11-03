@@ -12,6 +12,8 @@
 	/* Color scheme - easily customizable */
 	--accent: #{$accent};
 	--accent-dark: #{$accent-dark};
+	--accent-secondary: #{$accent-secondary};
+	--accent-secondary-dark: #{$accent-secondary-dark};
 	--black: #{$black-rgb};
 	--gray: #{$gray-rgb};
 	--gray-light: #{$gray-light-rgb};
@@ -71,20 +73,23 @@
 	font-display: swap;
 }
 
+html {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
 body {
 	font-family: $font-family;
 	margin: 0;
 	padding: 0;
 	text-align: left;
-	// Dynamic gradient background for glassmorphism
-	background:
-		linear-gradient(135deg, rgba(var(--gray-light), 0.4) 0%, rgba(var(--gray-light), 0.2) 50%, rgba(var(--gray-light), 0.3) 100%),
-		radial-gradient(circle at 20% 50%, rgba(var(--accent), 0.1) 0%, transparent 50%),
-		radial-gradient(circle at 80% 80%, rgba(var(--accent-dark), 0.15) 0%, transparent 50%),
-		linear-gradient(var(--gray-gradient));
-	background-attachment: fixed;
-	background-size: 100% 100%, 100% 100%, 100% 100%, 100% 600px;
+	// Simple solid off-white background
+	background-color: rgb(var(--gray-light));
 	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	color: rgb(var(--gray-dark));
@@ -95,6 +100,7 @@ body {
 main {
 	@include container($max-width);
 	padding: 3em $spacing-md;
+	flex: 1;
 }
 
 h1,

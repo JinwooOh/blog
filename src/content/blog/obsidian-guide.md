@@ -3,8 +3,8 @@ title: 'Obsidian Integration Guide'
 description: 'How to use Obsidian with your Astro blog for seamless content management'
 pubDate: '2024-01-15'
 heroImage: '../../assets/blog-placeholder-1.jpg'
-tags: ['obsidian', 'workflow', 'markdown']
-draft: true
+tags: ['obsidian', 'workflow', 'markdown', 'productive']
+draft: false
 author: 'Your Name'
 ---
 
