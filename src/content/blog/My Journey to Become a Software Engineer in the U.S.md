@@ -1,7 +1,7 @@
 ---
 title: 'My Journey to Become a Software Engineer in the U.S.'
 description: 'There are many software engineers in the U.S, and they all have different stories. Sometimes listening to their stories is quite interesting and gives me a lesson to learn. In this article, I would like to share my journey to become a software engineer in the U.S as a Korean, and share what I learn along the way.'
-pubDate: '09-06-2022'
+pubDate: '09-06-2020'
 heroImage: '../../assets/blog/journey.jpg'
 tags: ['carrer']
 draft: false

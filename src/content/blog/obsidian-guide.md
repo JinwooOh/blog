@@ -4,7 +4,7 @@ description: 'How to use Obsidian with your Astro blog for seamless content mana
 pubDate: '2024-01-15'
 heroImage: '../../assets/blog-placeholder-1.jpg'
 tags: ['obsidian', 'workflow', 'markdown', 'productive']
-draft: false
+draft: true
 author: 'Your Name'
 ---
 
