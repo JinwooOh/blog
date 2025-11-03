@@ -18,14 +18,15 @@ export const GET: APIRoute = async ({ params }) => {
 
 		// Debug: Check if Comment and its properties exist
 		if (!Comment) {
-			throw new Error('Comment table is not defined. Restart dev server after pushing schema.');
+			console.error('Comment table is undefined - schema may not be loaded');
+			throw new Error('Comment table is not defined. Make sure schema is pushed and environment variables are set.');
 		}
 
 		// Check if postSlug column exists
 		if (!Comment.postSlug) {
-			console.error('Comment table structure:', Object.keys(Comment));
+			console.error('Comment table structure:', Object.keys(Comment || {}));
 			console.error('Comment.postSlug is undefined');
-			throw new Error('Comment.postSlug column not found. Make sure dev server was restarted after schema push.');
+			throw new Error('Comment.postSlug column not found. Schema may need to be regenerated.');
 		}
 
 		const comments = await db
@@ -44,7 +45,16 @@ export const GET: APIRoute = async ({ params }) => {
 	} catch (error) {
 		console.error('Error fetching comments:', error);
 		console.error('Error details:', error instanceof Error ? error.stack : String(error));
-		return new Response(JSON.stringify({ error: 'Failed to fetch comments', details: error instanceof Error ? error.message : String(error) }), {
+
+		// Check for database connection issues
+		const errorMessage = error instanceof Error ? error.message : String(error);
+		const isDbError = errorMessage.includes('Comment') || errorMessage.includes('database') || errorMessage.includes('connection');
+
+		return new Response(JSON.stringify({
+			error: 'Failed to fetch comments',
+			details: errorMessage,
+			hint: isDbError ? 'Check environment variables (ASTRO_DB_REMOTE_URL, ASTRO_DB_APP_TOKEN) are set in deployment platform' : undefined
+		}), {
 			status: 500,
 			headers: { 'Content-Type': 'application/json' },
 		});

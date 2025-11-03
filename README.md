@@ -62,8 +62,14 @@ A clean, minimal blog built with Astro that's fully compatible with Obsidian's m
 
 ## Creating Posts
 
+See [PUBLISHING_WORKFLOW.md](./PUBLISHING_WORKFLOW.md) for a complete guide on publishing blog posts.
+
+**Adding Images?** See [QUICK_IMAGE_GUIDE.md](./QUICK_IMAGE_GUIDE.md) for a quick reference, or [IMAGE_GUIDE.md](./IMAGE_GUIDE.md) for detailed image management.
+
+**Quick start:**
+
 1. Create a new `.md` file in `src/content/blog/`
-2. Use this frontmatter template:
+2. Add frontmatter with required fields:
 
 ```yaml
 ---
@@ -72,22 +78,30 @@ description: 'Brief description of your post'
 pubDate: '2024-01-15'
 heroImage: '../../assets/your-image.jpg'
 tags: ['tag1', 'tag2']
-draft: false
+draft: false  # Set to true while writing
 author: 'Your Name'
 ---
 ```
 
 3. Write your content using standard markdown or Obsidian syntax
+4. Set `draft: false` when ready to publish
 
-## Obsidian Integration
+## Obsidian Workflow
 
-This blog supports Obsidian's markdown features:
+This blog works great with Obsidian! Use standard markdown in Obsidian and publish to your blog.
 
-- **Images**: Use `![[image.png]]` syntax
-- **Links**: Use `[[internal-link]]` for internal references
-- **Tables**: Standard markdown tables
-- **Footnotes**: Use `[^1]` syntax
-- **Code blocks**: With syntax highlighting
+**What works:**
+- ✅ Standard Markdown (headings, lists, bold, italic)
+- ✅ Tables (via GitHub Flavored Markdown)
+- ✅ Footnotes (`[^1]` syntax)
+- ✅ Code blocks with syntax highlighting
+- ✅ Frontmatter (YAML)
+
+**What to convert:**
+- `![[image.png]]` → `![alt](/images/blog/image.png)`
+- `[[wikilinks]]` → `[link text](/blog/post/)`
+
+See [OBSIDIAN_WORKFLOW.md](./OBSIDIAN_WORKFLOW.md) for a complete workflow guide.
 
 ## Customization
 

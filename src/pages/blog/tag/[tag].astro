@@ -26,10 +26,13 @@ type Props = {
 };
 
 const { tag } = Astro.props;
-const posts = await getCollection('blog');
-const filteredPosts = posts.filter(post =>
-  post.data.tags && post.data.tags.includes(tag)
-).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const allPosts = await getCollection('blog');
+const filteredPosts = allPosts
+  .filter(post => !post.data.draft)
+  .filter(post =>
+    post.data.tags && post.data.tags.includes(tag)
+  )
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 ---
 
 <html lang="en">

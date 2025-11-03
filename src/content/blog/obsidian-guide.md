@@ -4,7 +4,7 @@ description: 'How to use Obsidian with your Astro blog for seamless content mana
 pubDate: '2024-01-15'
 heroImage: '../../assets/blog-placeholder-1.jpg'
 tags: ['obsidian', 'workflow', 'markdown']
-draft: false
+draft: true
 author: 'Your Name'
 ---
 
@@ -15,16 +15,16 @@ This post demonstrates how to use Obsidian with your Astro blog for seamless con
 ## Features Supported
 
 ### Image References
-You can use Obsidian-style image references in your markdown:
+Use standard markdown for images (Obsidian `![[image]]` syntax should be converted):
 
-![[blog-placeholder-2.jpg]]
+![Blog placeholder](/images/blog/blog-placeholder-2.jpg)
 
 ### Tables
 Markdown tables are fully supported:
 
 | Feature | Status | Notes |
 |---------|--------|-------|
-| Images | ✅ | Supports ![[image.png]] syntax |
+| Images | ✅ | Use standard markdown: `![alt](/images/blog/image.png)` |
 | Tags | ✅ | Array format in frontmatter |
 | Footnotes | ✅ | Using [^1] syntax |
 | Tables | ✅ | GitHub Flavored Markdown |
@@ -44,7 +44,7 @@ function greet(name) {
 
 1. **Create posts in Obsidian** - Write your content using Obsidian's powerful editor
 2. **Use tags** - Add tags in the frontmatter for categorization
-3. **Link images** - Use `![[image.png]]` syntax for easy image management
+3. **Link images** - Use standard markdown: `![alt](/images/blog/image.png)`
 4. **Export to blog** - Copy your markdown to the blog's content folder
 
 ## Conclusion
