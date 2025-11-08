@@ -2,7 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { FEATURED_TOPICS, SOCIAL_LINKS, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 ---
 
 <!doctype html>
@@ -18,43 +18,203 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 				padding: ($spacing-xl * 2) $spacing-md;
 				margin-top: $spacing-xl;
 
+				section {
+					margin-bottom: ($spacing-2xl * 2);
+				}
+			}
+
+			.hero-section {
+				margin-bottom: ($spacing-2xl * 2);
+
 				h1 {
 					font-size: $font-size-4xl;
 					font-weight: 700;
 					margin-bottom: ($spacing-lg * 1.5);
-				}
-
-				p {
-					margin-bottom: $spacing-lg;
-				}
-
-				a {
 					color: rgb(var(--gray-dark));
+				}
+
+				.intro {
+					font-size: $font-size-lg;
+					line-height: 1.7;
+					color: rgb(var(--gray-dark));
+				}
+			}
+
+			.topics-section {
+				h2 {
+					font-size: $font-size-3xl;
+					font-weight: 700;
+					margin-bottom: $spacing-xl;
+					color: rgb(var(--gray-dark));
+				}
+
+				.topics-grid {
+					display: grid;
+					grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+					gap: $spacing-lg;
+
+					@include mobile {
+						grid-template-columns: 1fr;
+					}
+
+					.topic-card {
+						@include card-style($glass: true);
+						padding: $spacing-xl;
+						text-decoration: none;
+						color: inherit;
+						display: block;
+						transition: all $transition-normal;
+
+						&:hover {
+							transform: translateY(-4px);
+						}
+
+						h3 {
+							font-size: $font-size-xl;
+							font-weight: 700;
+							margin-bottom: $spacing-sm;
+							color: rgb(var(--gray-dark));
+						}
+
+						p {
+							color: rgb(var(--gray));
+							line-height: 1.6;
+							margin: 0;
+						}
+					}
+				}
+			}
+
+			.about-preview {
+				@include card-style($glass: true);
+				padding: $spacing-xl;
+				position: relative;
+				overflow: hidden;
+
+				h2 {
+					font-size: $font-size-3xl;
+					font-weight: 700;
+					margin-bottom: $spacing-lg;
+					color: rgb(var(--gray-dark));
+				}
+
+				.preview-content {
+					position: relative;
+					max-height: 200px;
+					overflow: hidden;
+					mask-image: linear-gradient(
+						to bottom,
+						black 0%,
+						black 70%,
+						transparent 100%
+					);
+					-webkit-mask-image: linear-gradient(
+						to bottom,
+						black 0%,
+						black 70%,
+						transparent 100%
+					);
+
+					p {
+						color: rgb(var(--gray-dark));
+						line-height: 1.7;
+						margin: 0;
+					}
+				}
+
+				.read-more {
+					display: inline-flex;
+					align-items: center;
+					gap: $spacing-xs;
+					margin-top: $spacing-lg;
+					color: $accent;
+					text-decoration: none;
+					font-weight: 600;
+					transition: all $transition-normal;
 
 					&:hover {
-						text-decoration: underline;
+						color: $accent-dark;
+						gap: $spacing-sm;
 					}
 				}
+			}
 
-				code {
-					@include glass-effect(0.85, 10px, 0.2);
-					padding: 2px $spacing-xs;
-					border-radius: 2px;
-					font-size: $font-size-sm;
-				}
+			.stay-connected {
+				@include card-style($glass: true);
+				padding: $spacing-xl;
+				text-align: center;
 
-				ul {
-					list-style: disc;
-					list-style-position: inside;
+				h2 {
+					font-size: $font-size-3xl;
+					font-weight: 700;
 					margin-bottom: $spacing-lg;
-
-					li {
-						margin-bottom: $spacing-sm;
-					}
+					color: rgb(var(--gray-dark));
 				}
 
-				.intro-section {
-					font-weight: 600;
+				.social-links {
+					display: flex;
+					gap: $spacing-md;
+					justify-content: center;
+					flex-wrap: wrap;
+
+					@include mobile {
+						flex-direction: column;
+						align-items: stretch;
+					}
+
+					.social-link {
+						@include glass-effect(0.85, 15px, 0.25);
+						padding: $spacing-md ($spacing-lg * 1.5);
+						border-radius: $border-radius;
+						text-decoration: none;
+						color: rgb(var(--gray-dark));
+						font-weight: 600;
+						transition: all $transition-normal;
+						display: inline-flex;
+						align-items: center;
+						justify-content: center;
+						gap: $spacing-sm;
+
+						@include mobile {
+							width: 100%;
+						}
+
+						&:hover {
+							background: rgba(107, 194, 178, 0.9);
+							backdrop-filter: blur(20px) saturate(180%);
+							-webkit-backdrop-filter: blur(20px) saturate(180%);
+							border-color: rgba(107, 194, 178, 0.4);
+							color: white;
+							transform: translateY(-2px);
+							box-shadow:
+								0 12px 40px 0 rgba(107, 194, 178, 0.3),
+								inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+						}
+
+						&.strava:hover {
+							background: rgba(252, 76, 2, 0.9);
+							border-color: rgba(252, 76, 2, 0.4);
+							box-shadow:
+								0 12px 40px 0 rgba(252, 76, 2, 0.3),
+								inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+						}
+
+						&.linkedin:hover {
+							background: rgba(0, 119, 181, 0.9);
+							border-color: rgba(0, 119, 181, 0.4);
+							box-shadow:
+								0 12px 40px 0 rgba(0, 119, 181, 0.3),
+								inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+						}
+
+						&.instagram:hover {
+							background: linear-gradient(45deg, rgba(225, 48, 108, 0.9), rgba(131, 58, 180, 0.9));
+							border-color: rgba(225, 48, 108, 0.4);
+							box-shadow:
+								0 12px 40px 0 rgba(225, 48, 108, 0.3),
+								inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+						}
+					}
 				}
 			}
 		</style>
@@ -62,12 +222,61 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	<body>
 		<Header />
 		<main class="home-page">
-			<h1>Thoughts on Data, and Life on Two Wheels</h1>
-			<p>
-				Hi, I’m Jinwoo Oh, a data engineer who loves blending logic and creativity.
-				I write about data systems, civic tech, long-distance cycling, and anything else that sparks my curiosity.
-			</p>
+			<section class="hero-section">
+				<h1>Thoughts on Data, and Life on Two Wheels</h1>
+				<p class="intro">
+					Hi, I'm Jinwoo Oh, a data engineer who loves blending logic and creativity.
+					I write about data systems, civic tech, long-distance cycling, and anything else that sparks my curiosity.
+				</p>
+			</section>
 
+			<section class="topics-section">
+				<h2>Featured Topics</h2>
+				<div class="topics-grid">
+					{FEATURED_TOPICS.map((topic) => (
+						<a href={topic.link} class="topic-card">
+							<h3>{topic.name}</h3>
+							<p>{topic.description}</p>
+						</a>
+					))}
+				</div>
+			</section>
+
+			<section class="about-preview">
+				<h2>About Me</h2>
+				<div class="preview-content">
+					<p>
+						Hi, I'm Jinwoo. I live in Madison, Wisconsin, and graduated from the University of Wisconsin Madison with a degree in Computer Science in 2018. Before moving to the U.S., I lived in Seoul, Korea, where I spent three years working in the game industry as a game designer.
+					</p>
+				</div>
+				<a href="/about" class="read-more">
+					Read more →
+				</a>
+			</section>
+
+			<section class="stay-connected">
+				<h2>Stay in the loop</h2>
+				<div class="social-links">
+					<a href={SOCIAL_LINKS.strava} target="_blank" rel="noopener noreferrer" class="social-link strava">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.599h4.172L10.463 0l-7.008 13.828h4.169" />
+						</svg>
+						Strava
+					</a>
+					<a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" class="social-link linkedin">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+						</svg>
+						LinkedIn
+					</a>
+					<a href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer" class="social-link instagram">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+						</svg>
+						Instagram
+					</a>
+				</div>
+			</section>
 		</main>
 		<Footer />
 	</body>
