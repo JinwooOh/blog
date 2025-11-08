@@ -143,6 +143,8 @@ import { FEATURED_TOPICS, SOCIAL_LINKS, SITE_DESCRIPTION, SITE_TITLE } from '../
 				@include card-style($glass: true);
 				padding: $spacing-xl;
 				text-align: center;
+				max-width: 100%;
+				box-sizing: border-box;
 
 				h2 {
 					font-size: $font-size-3xl;
@@ -156,6 +158,8 @@ import { FEATURED_TOPICS, SOCIAL_LINKS, SITE_DESCRIPTION, SITE_TITLE } from '../
 					gap: $spacing-md;
 					justify-content: center;
 					flex-wrap: wrap;
+					width: 100%;
+					box-sizing: border-box;
 
 					@include mobile {
 						flex-direction: column;
@@ -174,6 +178,9 @@ import { FEATURED_TOPICS, SOCIAL_LINKS, SITE_DESCRIPTION, SITE_TITLE } from '../
 						align-items: center;
 						justify-content: center;
 						gap: $spacing-sm;
+						flex: 0 1 auto;
+						min-width: 0;
+						box-sizing: border-box;
 
 						@include mobile {
 							width: 100%;
