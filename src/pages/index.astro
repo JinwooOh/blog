@@ -85,22 +85,39 @@ import { FEATURED_TOPICS, SOCIAL_LINKS, SITE_DESCRIPTION, SITE_TITLE } from '../
 				}
 			}
 
+			.about-section {
+				h2 {
+					font-size: $font-size-3xl;
+					font-weight: 700;
+					margin-bottom: $spacing-xl;
+					color: rgb(var(--gray-dark));
+				}
+
+				.about-preview-wrapper {
+					// Match the grid container structure
+					display: grid;
+					grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+					gap: $spacing-lg;
+
+					@include mobile {
+						grid-template-columns: 1fr;
+					}
+				}
+			}
+
 			.about-preview {
 				@include card-style($glass: true);
 				padding: $spacing-xl;
 				position: relative;
 				overflow: hidden;
-
-				h2 {
-					font-size: $font-size-3xl;
-					font-weight: 700;
-					margin-bottom: $spacing-lg;
-					color: rgb(var(--gray-dark));
-				}
+				box-sizing: border-box;
+				width: 100%;
+				display: flex;
+				flex-direction: column;
 
 				.preview-content {
 					position: relative;
-					max-height: 200px;
+					flex: 1;
 					overflow: hidden;
 					mask-image: linear-gradient(
 						to bottom,
@@ -116,8 +133,8 @@ import { FEATURED_TOPICS, SOCIAL_LINKS, SITE_DESCRIPTION, SITE_TITLE } from '../
 					);
 
 					p {
-						color: rgb(var(--gray-dark));
-						line-height: 1.7;
+						color: rgb(var(--gray));
+						line-height: 1.6;
 						margin: 0;
 					}
 				}
@@ -126,7 +143,7 @@ import { FEATURED_TOPICS, SOCIAL_LINKS, SITE_DESCRIPTION, SITE_TITLE } from '../
 					display: inline-flex;
 					align-items: center;
 					gap: $spacing-xs;
-					margin-top: $spacing-lg;
+					margin-top: $spacing-sm;
 					color: $accent;
 					text-decoration: none;
 					font-weight: 600;
@@ -139,18 +156,20 @@ import { FEATURED_TOPICS, SOCIAL_LINKS, SITE_DESCRIPTION, SITE_TITLE } from '../
 				}
 			}
 
-			.stay-connected {
-				@include card-style($glass: true);
-				padding: $spacing-xl;
-				text-align: center;
-				max-width: 100%;
-				box-sizing: border-box;
-
+			.stay-connected-section {
 				h2 {
 					font-size: $font-size-3xl;
 					font-weight: 700;
-					margin-bottom: $spacing-lg;
+					margin-bottom: $spacing-xl;
 					color: rgb(var(--gray-dark));
+				}
+
+				.stay-connected {
+					@include card-style($glass: true);
+					padding: $spacing-xl;
+					text-align: center;
+					max-width: 100%;
+					box-sizing: border-box;
 				}
 
 				.social-links {
@@ -249,21 +268,26 @@ import { FEATURED_TOPICS, SOCIAL_LINKS, SITE_DESCRIPTION, SITE_TITLE } from '../
 				</div>
 			</section>
 
-			<section class="about-preview">
+			<section class="about-section">
 				<h2>About Me</h2>
-				<div class="preview-content">
-					<p>
-						Hi, I'm Jinwoo. I live in Madison, Wisconsin, and graduated from the University of Wisconsin Madison with a degree in Computer Science in 2018. Before moving to the U.S., I lived in Seoul, Korea, where I spent three years working in the game industry as a game designer.
-					</p>
+				<div class="about-preview-wrapper">
+					<div class="about-preview">
+						<div class="preview-content">
+							<p>
+								Hi, I'm Jinwoo. I live in Madison, Wisconsin, and graduated from the University of Wisconsin Madison with a degree in Computer Science in 2018. Before moving to the U.S., I lived in Seoul, Korea, where I spent three years working in the game industry as a game designer.
+							</p>
+						</div>
+						<a href="/about" class="read-more">
+							Read more →
+						</a>
+					</div>
 				</div>
-				<a href="/about" class="read-more">
-					Read more →
-				</a>
 			</section>
 
-			<section class="stay-connected">
+			<section class="stay-connected-section">
 				<h2>Stay in the loop</h2>
-				<div class="social-links">
+				<div class="stay-connected">
+					<div class="social-links">
 					<a href={SOCIAL_LINKS.strava} target="_blank" rel="noopener noreferrer" class="social-link strava">
 						<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
 							<path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.599h4.172L10.463 0l-7.008 13.828h4.169" />
@@ -282,6 +306,7 @@ import { FEATURED_TOPICS, SOCIAL_LINKS, SITE_DESCRIPTION, SITE_TITLE } from '../
 						</svg>
 						Instagram
 					</a>
+					</div>
 				</div>
 			</section>
 		</main>
