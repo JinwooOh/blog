@@ -46,7 +46,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags, author, postS
 				@include container($max-width);
 				color: rgb(var(--gray-dark));
 				padding: 0 0 $spacing-xl 0;
-				font-size: $font-size-base; // Override body's 20px
+				font-size: 1.2rem; // Override body's 20px
 
 				// Adjust heading sizes in blog content
 				// Title is $font-size-3xl (1.875rem), so headings should be smaller
@@ -87,19 +87,19 @@ const { title, description, pubDate, updatedDate, heroImage, tags, author, postS
 				}
 
 				// Ensure strong/bold text is smaller than title (1.875rem)
-				// Set it to base size (1rem = 16px) to ensure it's smaller
+				// Set it to 1.2rem to match body text
 				strong,
 				b {
 					font-weight: 600;
-					font-size: $font-size-base !important;
+					font-size: 1.2rem !important;
 				}
 
-				// Ensure paragraphs and other text elements use base size
+				// Ensure paragraphs and other text elements use 1.2rem
 				p,
 				li,
 				td,
 				th {
-					font-size: $font-size-base;
+					font-size: 1.2rem;
 					line-height: 1.7;
 				}
 			}
