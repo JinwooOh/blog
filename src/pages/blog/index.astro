@@ -128,8 +128,10 @@ posts.forEach(post => {
 							width: 100%;
 						}
 
+						h4.title,
 						.title {
-							font-size: 2.369rem;
+							font-size: $font-size-2xl !important;
+							font-weight: 600;
 						}
 					}
 
@@ -155,10 +157,13 @@ posts.forEach(post => {
 				}
 			}
 
+			h4.title,
 			.title {
 				margin: 0;
 				color: rgb(var(--black));
-				line-height: 1;
+				line-height: 1.3;
+				font-size: $font-size-xl !important;
+				font-weight: 600;
 			}
 
 			.date {
