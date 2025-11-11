@@ -22,6 +22,11 @@ export const FEATURED_TOPICS = [
 		description: 'How I got here as a Korean, and how I became a software engineer in the U.S.',
 		link: '/blog/my-journey-to-become-a-software-engineer-in-the-us/',
 	},
+	{
+		name: 'My longest ride',
+		description: 'NY to Montreal and Back. My very first 1200km ride. 3 days, 87 hours, and 37 minutes.',
+		link: '/blog/4-days-to-montreal-and-back-my-longest-ride-yet/',
+	},
 ];
 
 // Social media links
